@@ -1,0 +1,77 @@
+From: habibie.faried@paidy.com
+To: admin@test.milahabibie.com
+
+Received: by mail-vs1-f49.google.com with SMTP id ada2fe7eead31-5fa26e497abso150395137.3
+        for <admin@test.milahabibie.com>; Thu, 05 Feb 2026 17:07:54 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1770340073; cv=none;
+        d=google.com; s=arc-20240605;
+        b=XUrtZfqfS8Ylj7RisJOT12k3xyVB1+MBlAGaUDKWertlnoGbRunT201ti0Yielz1g1
+         ToM6xH2//+VqIuCDoETtLRCNXk1ay3Q2kv0/9LosdIz3LNTsm8z77IKIO9gKb89T5Pr8
+         /5HGV4V76OAYAplNG1FnSbRAAHIYPe6CNJ1SZZj/yd3NHACW/vVdRpY/G9ROPludJ1QC
+         NuJ0Ftl3OXdtVGHDPat3eCghgvFPvd7Y399uHbKIdb11bOZ5YT//RBjlTHAU3/zyF9Lq
+         NGjSnSXGol2p9bXLZ76Yu7qzsq8OiWp/pQqhx7pFIaAXPCQSCHkAUsVTnxpVvhx5cjEs
+         zbVQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=to:subject:message-id:date:from:mime-version:dkim-signature;
+        bh=wZjyT7wYtwypJ2AAGjQvY+4RGzd8uiS1k1i9OlrSzXQ=;
+        fh=H9akSe7wo80SaTIxq1uYUgAUmuGS3b/cbmCH4OOJrFk=;
+        b=gwb/Zf+t5Iv3UAHvVwoLRglbqlchvBfaYSaL+fYcKY4TppS5SkLPqW2OEwJr7j8Gf6
+         3ljsiS55/HSaNqpGmpPf5c2JGdxdGgvVSxWzJaJc0CK8fh8ofMocw77PCjYw1vDPlX+G
+         blBh7iwN/M7DOOnZN5yy6oOjtlwHXOIgzVp0/EVmtvbRrnxuxiDMisnW5mwospbScBPw
+         lfFp7I6HwpNsXXFhX4SphaSWYXdDCEf0txZgGlu+VukEKLm7S5W4RlovNPyALB8eeNv5
+         lNwa0ivrHaarY/Wq9LABA3rqItFQ7twvUcU5DgEVf5+JQhTMXwl+XBqkqvcRzMyEN5Cn
+         4zag==;
+        darn=test.milahabibie.com
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=paidy.com; s=google; t=1770340073; x=1770944873; darn=test.milahabibie.com;
+        h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=wZjyT7wYtwypJ2AAGjQvY+4RGzd8uiS1k1i9OlrSzXQ=;
+        b=MS/CBvEn1HJEjZzHIvxWbkUXDRmylYaEh4wBH5OquQW4GZBY6XnDSjwYbaV+642+Yp
+         8ON6VXuGGp1uqRJkgnr24L8yKMEIWpRAgKpb9UtiDEf9pyvxhY30/zuRXwbrkRVzmrd+
+         stYveW3VDt0pSxYCWIAgONmu4oE/H+fA4n+ZQLKwewubI1uzZQSpPMj3IEYXUmeOZ9MO
+         sHprQ8bTiXfnMZgSeOVX3DNineOA4wMn6YQtJYKwcgA1eZTJQJTwh3lQxf0RH2SW0pmY
+         VYTF6yA7uYKk/CSNF0w0T8VHyy8FivS4mfPxMxhj5dUZYuRVbz4JrYC/E7dbDk76tLlx
+         sKeg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1770340073; x=1770944873;
+        h=to:subject:message-id:date:from:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=wZjyT7wYtwypJ2AAGjQvY+4RGzd8uiS1k1i9OlrSzXQ=;
+        b=hEcsWSskoPFyJDBbNT8HkYW563N3aCoSKLo6WKF3aXq8sZ9i/j+x3cqPQkfHrWDu/N
+         uer3/knNkEMwFqbLAUP5AosGCyQ5P/DtuTJRF9qf6PrzAoBw14UFVMk+Q2DY04b15cul
+         b3+Ynj9Ms4HpFvJReaUPwXmQnCu6qNDs+ELuoXUvXDD+NSMDD6KDd/o1HC1P5nugocyc
+         uW9OYGxyaz63Pdtr66azd0wbesnUPdlihHaTit4Kmx/NKKJRH4a5YRDiagauxhAGPZdH
+         nYIwJqcWZJK0AhvoywhpTQWfv+EW7PKo3yU/bfWp1UMHCclECYRbNzdaaCNh4oUzzYo0
+         9rFg==
+X-Gm-Message-State: AOJu0YwWiDDQMTll5/ez0whPsNVxnQcmD/qiWvgjqdh385s3lzRI4jkv
+        7dgysgu4DptJh6jGlZ3EGEt4QnEZOTmyNl8EapdwOGEtF9gC0BAQdHz+vx4FQin+zuwNZIhkCaG
+        yT6jtr6DpLOO8wWwiyo/AiYJtlisrHaqhvbJ+CBw3H4N9e3wp4jwKUWU=
+X-Gm-Gg: AZuq6aL4bFGxWPY9i/rKVrdlgoJjCy/Kg97mICiFuQJV+ECi6qJkyxXmRK5uoEaX7QD
+        Uq/zo5LekwU6EQU1XIMR47PPDWuMMfWFilbsKUi5nvFrgRxbMLfGldOX9EzFufEG+M6T+/QF4TK
+        zto5hYex4c2KrUnUPG4UdzWpTn8bgJc4vPD/0le6qr+uzPnvP+WqBmn9I7HzQ40gSOAd+3b3IRX
+        0LH07gJ6XatFEMEDTjQBLd02Ly2XWPdM7JLLetYQ7waOlrwTWbTJpNhZoXHrZH+tRNq7WOO
+X-Received: by 2002:a05:6102:f0e:b0:5e4:95f6:3dca with SMTP id
+ ada2fe7eead31-5fae8c256a3mr278113137.30.1770340073352; Thu, 05 Feb 2026
+ 17:07:53 -0800 (PST)
+MIME-Version: 1.0
+From: Habibie Faried <habibie.faried@paidy.com>
+Date: Fri, 6 Feb 2026 08:07:42 +0700
+X-Gm-Features: AZwV_Qh4xqSkfXAd8WT5K_wmDeuzQcCyJ4laqhq60G2gq_SFVHeQGprpg6yHV0I
+Message-ID: <CALuPKX27vghpz_8jo=j8_Tro7SZp=2aPb+mqRrne-msju8mVyg@mail.gmail.com>
+Subject: test
+To: admin@test.milahabibie.com
+Content-Type: multipart/alternative; boundary="0000000000003441d0064a1d6bd6"
+
+--0000000000003441d0064a1d6bd6
+Content-Type: text/plain; charset="UTF-8"
+
+test
+
+--0000000000003441d0064a1d6bd6
+Content-Type: text/html; charset="UTF-8"
+
+<div dir="ltr">test</div>
+
+--0000000000003441d0064a1d6bd6--

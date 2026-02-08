@@ -1,0 +1,14 @@
+services:
+  email-server:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: email-server-smtp
+    env_file:
+      - .env
+    ports:
+      - "25:2525"
+      - "127.0.0.1:48080:48080"
+    volumes:
+      - ./emails:/root/emails
+    restart: unless-stopped

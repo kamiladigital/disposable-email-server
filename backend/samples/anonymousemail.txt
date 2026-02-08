@@ -1,0 +1,45 @@
+From: noreply@anonymousemail.se
+To: admin2@test.milahabibie.com
+
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=anonymousemail.se;
+        s=mail; t=1770340135;
+        bh=l6VQ6IkL9Ef4QCPFvNfFZsRsBVS7Ua4x6L0hID8Yrr4=;
+        h=Date:To:From:Subject:List-Unsubscribe:From;
+        b=fwBQ6yvPE3hGKbcyjj5f7tvpc1WzbbBU8G++G9S3jdrlsU05AJnp/qRuPZLjTh0wi
+         zhICgXZzrFyy/DH34hKYZtinze6SbH/OALx0goC1lXMrSC8+EObt+4DvjWvabZoyBM
+         2b6IdPO2iX4uNwfW1HGEUr/aOeKDWVX4upMIDBT/ELaSk6Hjeig4nBF8IOpI9cIaCk
+         LBHYz43hdSY0/LbSywD+6nM8wA419MYryCe8InS5gBn7Sqcm2zkpCwzi0QXMpxwTd4
+         /QBHaoy5AEILFCzzOr5EHfR1Rydya09YsuKcBb8aDdmXJmdN1CN5DNy59tc8YW2S/M
+         RwD/Z7ijaUFBw==
+Received: from authenticated-user (s4.inboxpress.net [5.45.184.108])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        by s4.inboxpress.net (Postfix) with ESMTPSA id 5781E7E31D
+        for <admin2@test.milahabibie.com>; Fri,  6 Feb 2026 01:08:55 +0000 (UTC)
+Date: Fri, 6 Feb 2026 02:08:55 +0100
+To: admin2@test.milahabibie.com
+From: Anonymousemail <noreply@anonymousemail.se>
+Subject: test
+Message-ID: <e912b3353cce5287c75a762aa3fe47c8@anonymousemail.se>
+List-Unsubscribe-Post: List-Unsubscribe=One-Click
+List-Unsubscribe: <https://anonymousemail.se/unsubscribe.php?uid=dThuQmRNQlNsL29mcHFOQ0pUMnVuQVQyRkNaNExOUlNCWkU1T2JuaThqND0=>
+MIME-Version: 1.0
+Content-Type: multipart/alternative;
+ boundary="b1=_u6QDkomMCEh0vx29BrUJd74Gr7GnkDuNlU4gc3z9E"
+Content-Transfer-Encoding: 8bit
+
+--b1=_u6QDkomMCEh0vx29BrUJd74Gr7GnkDuNlU4gc3z9E
+Content-Type: text/plain; charset=us-ascii
+
+Powered by Anonymousemail
+
+test
+
+--b1=_u6QDkomMCEh0vx29BrUJd74Gr7GnkDuNlU4gc3z9E
+Content-Type: text/html; charset=us-ascii
+
+<p><span style="color:#c0392b">Powered by <strong>Anonymousemail</strong></span></p><p>test</p>
+
+
+--b1=_u6QDkomMCEh0vx29BrUJd74Gr7GnkDuNlU4gc3z9E--
