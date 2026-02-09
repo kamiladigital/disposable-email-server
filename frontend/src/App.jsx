@@ -142,8 +142,8 @@ const getDBSize = async () => {
 const createIframeHTML = (html, isDarkMode = false) => {
   const decoded = decodeHTML(html);
   const sanitized = DOMPurify.sanitize(decoded);
-  const bgColor = isDarkMode ? "#1f2937" : "#ffffff";
-  const textColor = isDarkMode ? "#e2e8f0" : "#333";
+  const bgColor = isDarkMode ? "#0f1a2e" : "#ffffff";
+  const textColor = isDarkMode ? "#e8edf7" : "#333";
   
   return `
     <!DOCTYPE html>
@@ -193,26 +193,26 @@ const createIframeHTML = (html, isDarkMode = false) => {
           color: #0066cc !important;
         }
         pre {
-          background: ${isDarkMode ? "#111827" : "#f5f5f5"} !important;
+          background: ${isDarkMode ? "#0b1324" : "#f5f5f5"} !important;
           padding: 10px !important;
           border-radius: 4px !important;
           overflow-x: auto !important;
-          color: ${isDarkMode ? "#e2e8f0" : "#333"} !important;
+          color: ${isDarkMode ? "#e8edf7" : "#333"} !important;
           max-width: 100% !important;
           width: 100% !important;
         }
         code {
-          background: ${isDarkMode ? "#111827" : "#f5f5f5"} !important;
+          background: ${isDarkMode ? "#0b1324" : "#f5f5f5"} !important;
           padding: 2px 6px !important;
           border-radius: 3px !important;
           font-family: "Monaco", "Menlo", "Ubuntu Mono", monospace !important;
-          color: ${isDarkMode ? "#e2e8f0" : "#333"} !important;
+          color: ${isDarkMode ? "#e8edf7" : "#333"} !important;
         }
         blockquote {
-          border-left: 3px solid ${isDarkMode ? "#374151" : "#ddd"} !important;
+          border-left: 3px solid ${isDarkMode ? "#22314f" : "#ddd"} !important;
           margin: 0 !important;
           padding-left: 12px !important;
-          color: ${isDarkMode ? "#9ca3af" : "#666"} !important;
+          color: ${isDarkMode ? "#9fb1cc" : "#666"} !important;
         }
       </style>
     </head>
@@ -244,7 +244,7 @@ export default function App() {
   const [validationError, setValidationError] = useState(null);
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
-  const [theme, setTheme] = useState("light");
+  const [theme, setTheme] = useState("dark");
   const [detailSource, setDetailSource] = useState("");
 
   const handleOpenInbox = async () => {
@@ -394,13 +394,12 @@ export default function App() {
     setDetailSource("");
   };
 
-  // Restore inbox on mount if logged in
+  // Restore inbox data only when the inbox view is active
   useEffect(() => {
-    if (openedEmail) {
-      setActiveMenu("inbox");
+    if (activeMenu === "inbox" && openedEmail) {
       void fetchInbox(openedEmail, 1);
     }
-  }, []);
+  }, [activeMenu, openedEmail]);
 
   useEffect(() => {
     document.documentElement.dataset.theme = theme;
@@ -467,16 +466,20 @@ export default function App() {
           <div>
             <h1>
               {activeMenu === "home"
-                ? "Home"
+                ? "Read-only email server"
                 : activeMenu === "inbox"
                 ? "Inbox"
                 : "Config"}
             </h1>
             <p className="subheading">
               {activeMenu === "home"
-                ? "Disposable email address — temporary public mailbox"
+                ? "Create a disposable mailbox instantly. No sign-up, no password."
                 : openedEmail
-                ? `View messages received for <b>${openedEmail}</b>`
+                ? (
+                    <>
+                      View messages received for <strong>{openedEmail}</strong>
+                    </>
+                  )
                 : ""}
             </p>
           </div>
@@ -501,40 +504,6 @@ export default function App() {
 
         {activeMenu === "home" ? (
           <section className="home">
-            <div className="home-hero">
-              <div>
-                <p className="home-eyebrow">Mail Console</p>
-                <h2>Read-only email visibility.</h2>
-                <p className="home-text">
-                  Create a disposable mailbox instantly. No sign-up, no password.
-                </p>
-                <div className="home-actions">
-                  <button
-                    type="button"
-                    className="primary"
-                    onClick={() => setActiveMenu("inbox")}
-                  >
-                    Open Inbox
-                  </button>
-                </div>
-              </div>
-              <div className="home-panel">
-                <div>
-                  <p className="panel-label">How it works</p>
-                  <p className="panel-title">Point your DNS to this server</p>
-                </div>
-                <div className="panel-metrics">
-                  <div>
-                    <span>Set MX record</span>
-                    <strong>Mail exchange</strong>
-                  </div>
-                  <div>
-                    <span>Set A record</span>
-                    <strong>Server IP</strong>
-                  </div>
-                </div>
-              </div>
-            </div>
             <div className="home-quickstart">
               <div>
                 <p className="home-eyebrow">Quick start</p>
@@ -590,26 +559,62 @@ export default function App() {
                 </div>
               </div>
             </div>
-            <div className="home-instructions">
-              <h3>Important notes</h3>
-              <ul>
-                <li>
-                  We only receive emails up to <strong>512 KB</strong>.
-                </li>
-                <li>
-                  Attachments are not supported yet, but planned for a future update.
-                </li>
-                <li>
-                  We do not support any activity that violates local or international law.
-                </li>
-                <li>
-                  Emails sent to this platform are public, which means anyone can read them.
-                </li>
-                <li>
-                  For more features or a custom setup, contact
-                  <strong> contact@kamiladigital.com</strong>.
-                </li>
-              </ul>
+            <div className="home-bottom">
+              <div className="home-instructions">
+                <h3>Important notes</h3>
+                <ul>
+                  <li>
+                    We only receive emails up to <strong>512 KB</strong>.
+                  </li>
+                  <li>
+                    Attachments are not supported yet, but planned for a future update.
+                  </li>
+                  <li>
+                    We do not support any activity that violates local or international law.
+                  </li>
+                  <li>
+                    Emails sent to this platform are public, which means anyone can read them.
+                  </li>
+                  <li>
+                    For more features or a custom setup: <a href="mailto:contact@kamiladigital.com">contact@kamiladigital.com</a>
+                  </li>
+                </ul>
+              </div>
+              <div className="home-panel">
+                <div>
+                  <p className="panel-label">How it works</p>
+                  <p className="panel-title">Point your DNS to this server</p>
+                </div>
+                <table className="dns-table">
+                  <tbody>
+                    <tr>
+                      <td className="dns-type">MX</td>
+                      <td>&lt;email domain&gt;</td>
+                      <td>mx1.&lt;email domain&gt;</td>
+                    </tr>
+                    <tr>
+                      <td className="dns-type">A</td>
+                      <td>mx1.&lt;email domain&gt;</td>
+                      <td>149.28.152.71</td>
+                    </tr>
+                  </tbody>
+                </table>
+                <p className="dns-note">Example of this server</p>
+                <table className="dns-table">
+                  <tbody>
+                    <tr>
+                      <td className="dns-type">MX</td>
+                      <td>terimasurel.dpdns.org</td>
+                      <td>mx1.terimasurel.dpdns.org</td>
+                    </tr>
+                    <tr>
+                      <td className="dns-type">A</td>
+                      <td>mx1.terimasurel.dpdns.org</td>
+                      <td>149.28.152.71</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
             </div>
           </section>
         ) : activeMenu === "inbox" ? (
@@ -646,7 +651,7 @@ export default function App() {
                   value={emailAddress}
                   onChange={(event) => setEmailAddress(event.target.value)}
                 />
-                <p className="config-helper">Example: tes@terimasurel.dpdns.org</p>
+                <p className="config-helper">Example: test@terimasurel.dpdns.org</p>
                 <button 
                   className="primary" 
                   type="button" 

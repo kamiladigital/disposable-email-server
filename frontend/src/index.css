@@ -1,5 +1,5 @@
 :root {
-  font-family: "Inter", system-ui, -apple-system, sans-serif;
+  font-family: "Space Grotesk", "Helvetica Neue", sans-serif;
   color: #0f172a;
   background-color: #eef2ff;
 }
@@ -20,8 +20,8 @@ body {
 }
 
 :root[data-theme="dark"] body {
-  background: linear-gradient(145deg, #0b1120 0%, #0f172a 50%, #111827 100%);
-  color: #e2e8f0;
+  background: linear-gradient(145deg, #05070f 0%, #0b1324 45%, #0f1a33 100%);
+  color: #e8edf7;
 }
 
 :root[data-theme="dark"] .content {
@@ -29,23 +29,23 @@ body {
 }
 
 :root[data-theme="dark"] .sidebar {
-  background: #0b1220;
-  color: #e2e8f0;
+  background: #0a1222;
+  color: #e8edf7;
 }
 
 :root[data-theme="dark"] .menu-item {
-  color: #e2e8f0;
-  border-color: rgba(148, 163, 184, 0.35);
+  color: #e8edf7;
+  border-color: rgba(114, 140, 186, 0.35);
 }
 
 :root[data-theme="dark"] .menu-item.active,
 :root[data-theme="dark"] .menu-item:hover {
-  background: rgba(59, 130, 246, 0.28);
-  border-color: rgba(59, 130, 246, 0.7);
+  background: rgba(88, 134, 255, 0.2);
+  border-color: rgba(88, 134, 255, 0.7);
 }
 
 :root[data-theme="dark"] .sidebar-card {
-  background: rgba(148, 163, 184, 0.12);
+  background: rgba(88, 110, 150, 0.18);
 }
 
 :root[data-theme="dark"] .subheading,
@@ -68,14 +68,25 @@ body {
 :root[data-theme="dark"] .empty-mailbox,
 :root[data-theme="dark"] .page-button,
 :root[data-theme="dark"] .refresh-button {
-  background: #111827;
-  color: #e2e8f0;
-  border-color: #1f2937;
+  background: #0f1a2e;
+  color: #e8edf7;
+  border-color: #1a2a45;
 }
 
 :root[data-theme="dark"] .page-button:hover,
 :root[data-theme="dark"] .refresh-button:hover {
-  background: #1f2937;
+  background: #16233c;
+}
+
+:root[data-theme="dark"] .pill {
+  background: rgba(88, 134, 255, 0.2);
+  color: #c7d6ff;
+}
+
+:root[data-theme="dark"] .ghost {
+  background: #0f1a2e;
+  border-color: #22314f;
+  color: #8ea0be;
 }
 
 button {
@@ -255,9 +266,9 @@ h1 {
 }
 
 :root[data-theme="dark"] .theme-toggle {
-  background: #111827;
-  border-color: #1f2937;
-  color: #e2e8f0;
+  background: #0f1a2e;
+  border-color: #1a2a45;
+  color: #e8edf7;
 }
 
 .home {
@@ -362,6 +373,62 @@ h1 {
   color: #475569;
 }
 
+.dns-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+  background: rgba(255, 255, 255, 0.7);
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid rgba(148, 163, 184, 0.25);
+  table-layout: fixed;
+  margin-left: -8px;
+  margin-right: 8px;
+}
+
+.dns-table td {
+  padding: 10px 12px;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.2);
+  color: #1e293b;
+  word-break: break-word;
+  overflow-wrap: anywhere;
+}
+
+.dns-table tr:last-child td {
+  border-bottom: none;
+}
+
+.dns-type {
+  font-weight: 700;
+  color: #2563eb;
+  width: 56px;
+  white-space: nowrap;
+}
+
+:root[data-theme="dark"] .dns-table {
+  background: rgba(15, 26, 46, 0.9);
+  border-color: rgba(90, 120, 170, 0.25);
+}
+
+:root[data-theme="dark"] .dns-table td {
+  border-bottom: 1px solid rgba(90, 120, 170, 0.2);
+  color: #d7e0ef;
+}
+
+:root[data-theme="dark"] .dns-type {
+  color: #88a9ff;
+}
+
+.dns-note {
+  margin-top: 10px;
+  color: #475569;
+  font-size: 13px;
+}
+
+:root[data-theme="dark"] .dns-note {
+  color: #a5b4cf;
+}
+
 .home-quickstart {
   background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
   color: #ffffff;
@@ -409,6 +476,10 @@ h1 {
   font-size: 20px;
 }
 
+:root[data-theme="dark"] .step-icon {
+  background: rgba(88, 134, 255, 0.2);
+}
+
 .step-title {
   font-weight: 600;
   margin-bottom: 6px;
@@ -425,6 +496,13 @@ h1 {
   border-radius: 18px;
   padding: 22px;
   box-shadow: 0 16px 30px rgba(15, 23, 42, 0.2);
+}
+
+.home-bottom {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+  gap: 18px;
+  align-items: start;
 }
 
 .home-instructions h3 {
@@ -708,7 +786,7 @@ h1 {
 }
 
 :root[data-theme="dark"] .preview-iframe {
-  background: #1f2937;
+  background: #0f1a2e;
 }
 
 .empty {
@@ -787,11 +865,22 @@ h1 {
   font-size: 14px;
   outline: none;
   background: #f8fafc;
+  color: #0f172a;
 }
 
 .config-input:focus {
   border-color: #60a5fa;
   box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.2);
+}
+
+:root[data-theme="dark"] .config-input {
+  background: #0f1a2e;
+  border-color: #22314f;
+  color: #e8edf7;
+}
+
+:root[data-theme="dark"] .config-input::placeholder {
+  color: #8ea0be;
 }
 
 .config-helper {
@@ -863,6 +952,10 @@ h1 {
   }
 
   .home-hero {
+    grid-template-columns: 1fr;
+  }
+
+  .home-bottom {
     grid-template-columns: 1fr;
   }
 
