@@ -589,13 +589,8 @@ export default function App() {
                   <tbody>
                     <tr>
                       <td className="dns-type">MX</td>
-                      <td>&lt;email domain&gt;</td>
-                      <td>mx1.&lt;email domain&gt;</td>
-                    </tr>
-                    <tr>
-                      <td className="dns-type">A</td>
-                      <td>mx1.&lt;email domain&gt;</td>
-                      <td>149.28.152.71</td>
+                      <td>&lt;yourdomain.com&gt;</td>
+                      <td>mx1.terimasurel.dpdns.org</td>
                     </tr>
                   </tbody>
                 </table>
@@ -606,11 +601,6 @@ export default function App() {
                       <td className="dns-type">MX</td>
                       <td>terimasurel.dpdns.org</td>
                       <td>mx1.terimasurel.dpdns.org</td>
-                    </tr>
-                    <tr>
-                      <td className="dns-type">A</td>
-                      <td>mx1.terimasurel.dpdns.org</td>
-                      <td>149.28.152.71</td>
                     </tr>
                   </tbody>
                 </table>
