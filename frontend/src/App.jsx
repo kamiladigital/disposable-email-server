@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import DOMPurify from "dompurify";
 
 const API_BASE = "https://backend.terimasurel.dpdns.org";
 const PAGE_SIZE = 5;
@@ -141,7 +140,6 @@ const getDBSize = async () => {
 
 const createIframeHTML = (html, isDarkMode = false) => {
   const decoded = decodeHTML(html);
-  const sanitized = DOMPurify.sanitize(decoded);
   const bgColor = isDarkMode ? "#0f1a2e" : "#ffffff";
   const textColor = isDarkMode ? "#e8edf7" : "#333";
   
@@ -217,7 +215,7 @@ const createIframeHTML = (html, isDarkMode = false) => {
       </style>
     </head>
     <body>
-      ${sanitized}
+      ${decoded}
     </body>
     </html>
   `;
@@ -753,6 +751,7 @@ export default function App() {
                             theme === "dark"
                           )}
                           title="Email content"
+                          sandbox="allow-same-origin allow-scripts allow-forms allow-popups allow-modals allow-presentation"
                           style={{ border: "none", width: "100%", height: "100%" }}
                         />
                       ) : (
