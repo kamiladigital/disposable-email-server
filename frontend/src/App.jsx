@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import DOMPurify from "dompurify";
 
 const API_BASE = "https://backend.terimasurel.dpdns.org";
 const PAGE_SIZE = 5;
@@ -140,6 +141,7 @@ const getDBSize = async () => {
 
 const createIframeHTML = (html, isDarkMode = false) => {
   const decoded = decodeHTML(html);
+  const sanitized = DOMPurify.sanitize(decoded);
   const bgColor = isDarkMode ? "#0f1a2e" : "#ffffff";
   const textColor = isDarkMode ? "#e8edf7" : "#333";
   
@@ -215,7 +217,7 @@ const createIframeHTML = (html, isDarkMode = false) => {
       </style>
     </head>
     <body>
-      ${decoded}
+      ${sanitized}
     </body>
     </html>
   `;
