@@ -753,7 +753,7 @@ export default function App() {
                             theme === "dark"
                           )}
                           title="Email content"
-                          sandbox="allow-same-origin allow-scripts allow-forms allow-popups allow-modals allow-presentation"
+                          sandbox="allow-same-origin allow-scripts allow-forms allow-modals allow-presentation"
                           style={{ border: "none", width: "100%", height: "100%" }}
                         />
                       ) : (
