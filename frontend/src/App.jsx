@@ -139,9 +139,56 @@ const getDBSize = async () => {
   }
 };
 
+// Rewrite all external image URLs so they are fetched through the backend proxy,
+// avoiding CORP/COEP blocking (same approach Gmail uses).
+const proxyImageURLs = (html) => {
+  const parser = new DOMParser();
+  const doc = parser.parseFromString(html, "text/html");
+
+  doc.querySelectorAll("img").forEach((img) => {
+    const src = img.getAttribute("src");
+    if (src && (src.startsWith("http://") || src.startsWith("https://"))) {
+      img.setAttribute("src", `${API_BASE}/proxy?url=${encodeURIComponent(src)}`);
+    }
+
+    const srcset = img.getAttribute("srcset");
+    if (srcset) {
+      // srcset format: "url1 1x, url2 2x" or "url1 100w, url2 200w"
+      const rewritten = srcset
+        .split(",")
+        .map((candidate) => {
+          const parts = candidate.trim().split(/\s+/);
+          const u = parts[0];
+          const descriptor = parts.slice(1).join(" ");
+          if (u && (u.startsWith("http://") || u.startsWith("https://"))) {
+            const proxied = `${API_BASE}/proxy?url=${encodeURIComponent(u)}`;
+            return descriptor ? `${proxied} ${descriptor}` : proxied;
+          }
+          return candidate;
+        })
+        .join(", ");
+      img.setAttribute("srcset", rewritten);
+    }
+  });
+
+  // Rewrite inline background-image: url(...) styles
+  doc.querySelectorAll("[style]").forEach((el) => {
+    const style = el.getAttribute("style");
+    if (style && style.includes("url(")) {
+      const rewritten = style.replace(/url\(\s*(['"]?)(https?:\/\/[^'"\s\)][^'"\)]*)\1\s*\)/g, (_, quote, u) => {
+        return `url(${API_BASE}/proxy?url=${encodeURIComponent(u)})`;
+      });
+      el.setAttribute("style", rewritten);
+    }
+  });
+
+  return doc.body.innerHTML;
+};
+
 const createIframeHTML = (html, isDarkMode = false) => {
   const decoded = decodeHTML(html);
   const sanitized = DOMPurify.sanitize(decoded);
+  const proxied = proxyImageURLs(sanitized);
   const bgColor = isDarkMode ? "#0f1a2e" : "#ffffff";
   const textColor = isDarkMode ? "#e8edf7" : "#333";
   
@@ -217,7 +264,7 @@ const createIframeHTML = (html, isDarkMode = false) => {
       </style>
     </head>
     <body>
-      ${sanitized}
+      ${proxied}
     </body>
     </html>
   `;
@@ -753,7 +800,7 @@ export default function App() {
                             theme === "dark"
                           )}
                           title="Email content"
-                          sandbox="allow-same-origin allow-scripts allow-forms allow-modals allow-presentation"
+                          sandbox="allow-scripts allow-forms allow-modals allow-presentation"
                           style={{ border: "none", width: "100%", height: "100%" }}
                         />
                       ) : (
