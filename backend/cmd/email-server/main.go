@@ -3,12 +3,16 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"io"
 	"log"
+	"net"
 	"net/http"
 	"net/mail"
+	"net/url"
 	"os"
 	"strconv"
 	"strings"
+	"time"
 
 	"github.com/habibiefaried/email-server/internal/dnsutil"
 	"github.com/habibiefaried/email-server/internal/server"
@@ -235,6 +239,107 @@ func main() {
 			"message":   "MX records do not resolve to expected IP (149.28.152.71)",
 			"mx_status": mxStatus,
 		})
+	})
+
+	// Image proxy endpoint – fetches external images server-side so the browser
+	// never has to make a cross-origin request (avoids CORP/COEP blocking).
+	http.HandleFunc("/proxy", func(w http.ResponseWriter, r *http.Request) {
+		// Set CORS headers
+		w.Header().Set("Access-Control-Allow-Origin", "*")
+		w.Header().Set("Access-Control-Allow-Methods", "GET, OPTIONS")
+		w.Header().Set("Cross-Origin-Resource-Policy", "cross-origin")
+
+		if r.Method == http.MethodOptions {
+			w.WriteHeader(http.StatusOK)
+			return
+		}
+
+		if r.Method != http.MethodGet {
+			http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+			return
+		}
+
+		rawURL := r.URL.Query().Get("url")
+		if rawURL == "" {
+			http.Error(w, "Missing 'url' query parameter", http.StatusBadRequest)
+			return
+		}
+
+		parsed, err := url.Parse(rawURL)
+		if err != nil || (parsed.Scheme != "http" && parsed.Scheme != "https") {
+			http.Error(w, "Invalid URL: only http and https are supported", http.StatusBadRequest)
+			return
+		}
+
+		// Block requests to loopback / private RFC-1918 / link-local addresses (SSRF guard).
+		// isPrivateHost resolves the hostname to IPs and returns true if any is non-public.
+		isPrivateHost := func(hostname string) bool {
+			ips, err := net.LookupHost(hostname)
+			if err != nil {
+				return false
+			}
+			for _, ipStr := range ips {
+				ip := net.ParseIP(ipStr)
+				if ip == nil {
+					continue
+				}
+				if ip.IsLoopback() || ip.IsPrivate() || ip.IsLinkLocalUnicast() {
+					return true
+				}
+			}
+			return false
+		}
+
+		host := parsed.Hostname()
+		if isPrivateHost(host) {
+			http.Error(w, "Forbidden: private address", http.StatusForbidden)
+			return
+		}
+
+		client := &http.Client{
+			Timeout: 15 * time.Second,
+			CheckRedirect: func(req *http.Request, via []*http.Request) error {
+				if req.URL.Scheme != "http" && req.URL.Scheme != "https" {
+					return fmt.Errorf("redirect to non-http scheme blocked")
+				}
+				if len(via) >= 5 {
+					return fmt.Errorf("too many redirects")
+				}
+				// Validate redirect destination against private IPs (SSRF via redirect guard)
+				if isPrivateHost(req.URL.Hostname()) {
+					return fmt.Errorf("redirect to private address blocked")
+				}
+				return nil
+			},
+		}
+
+		req, err := http.NewRequest(http.MethodGet, rawURL, nil)
+		if err != nil {
+			http.Error(w, "Failed to create request", http.StatusInternalServerError)
+			return
+		}
+		req.Header.Set("User-Agent", "Mozilla/5.0 (compatible; email-proxy/1.0)")
+
+		resp, err := client.Do(req)
+		if err != nil {
+			log.Printf("Proxy fetch error for %s: %v", rawURL, err)
+			http.Error(w, "Failed to fetch resource", http.StatusBadGateway)
+			return
+		}
+		defer resp.Body.Close()
+
+		contentType := resp.Header.Get("Content-Type")
+		if !strings.HasPrefix(contentType, "image/") {
+			http.Error(w, "Remote resource is not an image", http.StatusForbidden)
+			return
+		}
+
+		w.Header().Set("Content-Type", contentType)
+		w.Header().Set("Cache-Control", "public, max-age=86400")
+		w.WriteHeader(http.StatusOK)
+		if _, err := io.Copy(w, resp.Body); err != nil {
+			log.Printf("Proxy copy error for %s: %v", rawURL, err)
+		}
 	})
 
 	log.Printf("Starting HTTP API on %s", addr)
